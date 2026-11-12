@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Embed the Guelph Bike Parking Map (Beta)</title>
+  <meta name="robots" content="noindex">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://tile.openstreetmap.org; connect-src 'self' https://photon.komoot.io https://guelph.bike; font-src 'self'; worker-src 'self' blob:; frame-src 'self'; manifest-src 'self'; form-action 'self'">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <style>
+    :root { --ink: #0f172a; --muted: #475569; --line: #e2e8f0; --accent: #0f766e; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--ink); background: #f8fafc; }
+    main { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
+    h1 { font-size: 26px; margin: 0 0 4px; }
+    h2 { font-size: 18px; margin: 28px 0 8px; }
+    p { margin: 0 0 12px; color: var(--muted); }
+    a { color: var(--accent); }
+    .grid { display: grid; gap: 20px; grid-template-columns: 280px 1fr; align-items: start; }
+    @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+    fieldset { border: 1px solid var(--line); border-radius: 10px; background: #fff; padding: 12px 14px; margin: 0 0 12px; }
+    legend { font-weight: 600; font-size: 14px; padding: 0 4px; }
+    label { display: flex; gap: 8px; align-items: center; font-size: 14px; min-height: 30px; }
+    input[type=number], select { font: inherit; font-size: 14px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; }
+    input[type=checkbox], input[type=radio] { accent-color: var(--accent); width: 16px; height: 16px; margin: 0; }
+    .preview { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #fff; }
+    .preview iframe { display: block; width: 100%; border: 0; }
+    textarea { width: 100%; min-height: 120px; font: 13px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; padding: 10px; border: 1px solid #cbd5e1; border-radius: 10px; resize: vertical; background: #fff; color: var(--ink); }
+    button { font: inherit; font-weight: 600; font-size: 14px; color: #fff; background: var(--accent); border: 0; border-radius: 8px; padding: 9px 16px; cursor: pointer; margin-top: 8px; }
+    button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+    code { font-size: 13px; background: #e2e8f0; padding: 1px 5px; border-radius: 4px; }
+    table { border-collapse: collapse; width: 100%; font-size: 14px; background: #fff; }
+    th, td { text-align: left; border-bottom: 1px solid var(--line); padding: 6px 8px; vertical-align: top; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Embed the Guelph Bike Parking Map</h1>
+  <p>Add the map to your website, for example a GCAT page or a business site. Pick options, check the preview, then copy the code into your page’s HTML. On WordPress, use a “Custom HTML” block.</p>
+
+  <div class="grid">
+    <form id="opts">
+      <fieldset>
+        <legend>Size</legend>
+        <label>Height (px) <input type="number" name="height" value="500" min="250" max="1200" step="10"></label>
+        <label><input type="checkbox" name="responsive" checked> Full width of the page</label>
+      </fieldset>
+      <fieldset>
+        <legend>Display</legend>
+        <label>Key
+          <select name="legend">
+            <option value="closed">Collapsed</option>
+            <option value="open">Open</option>
+            <option value="0">Hidden</option>
+          </select>
+        </label>
+        <label><input type="checkbox" name="cluster" checked> Group nearby parking</label>
+        <label><input type="checkbox" name="covered"> Covered or indoor only</label>
+        <label><input type="checkbox" name="street"> Street map instead of the bike map</label>
+        <label><input type="checkbox" name="routes"> Show cycling routes</label>
+        <label><input type="checkbox" name="search" checked> Address search box</label>
+      </fieldset>
+      <fieldset>
+        <legend>Starting view</legend>
+        <label><input type="radio" name="view" value="city" checked> Whole city</label>
+        <label><input type="radio" name="view" value="downtown"> Downtown</label>
+        <label><input type="radio" name="view" value="uofg"> University of Guelph</label>
+      </fieldset>
+    </form>
+
+    <div>
+      <div class="preview"><iframe id="preview" title="Guelph bike parking map preview" allow="geolocation; fullscreen"></iframe></div>
+      <h2>Embed code</h2>
+      <textarea id="code" readonly aria-label="Embed code"></textarea>
+      <button type="button" id="copy">Copy code</button>
+      <p id="copy-status" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <h2>Link parameters</h2>
+  <p>You can also add these to the map address yourself:</p>
+  <table>
+    <tr><th scope="col">Parameter</th><th scope="col">What it does</th></tr>
+    <tr><td><code>lat</code>, <code>lng</code>, <code>zoom</code></td><td>Starting position, e.g. <code>lat=43.5446&amp;lng=-80.2489&amp;zoom=16</code></td></tr>
+    <tr><td><code>types</code></td><td>Only these rack types: <code>stands</code>, <code>wave</code>, <code>rack</code>, <code>bollard</code>, <code>wall_loops</code>, <code>ground_slots</code>, <code>shed</code>, <code>lockers</code>, <code>building</code>, <code>two-tier</code>, <code>other</code>, <code>unknown</code> (comma-separated)</td></tr>
+    <tr><td><code>covered=1</code></td><td>Only covered or indoor parking</td></tr>
+    <tr><td><code>cluster=0</code></td><td>Show every location instead of grouping them</td></tr>
+    <tr><td><code>legend</code></td><td><code>open</code>, <code>closed</code> or <code>0</code> (hidden)</td></tr>
+    <tr><td><code>basemap=street</code></td><td>Start with OpenStreetMap’s street map instead of the bike map (needs a connection)</td></tr>
+    <tr><td><code>routes=1</code></td><td>Show signed cycling routes on top</td></tr>
+    <tr><td><code>search=0</code></td><td>Hide the address search box</td></tr>
+    <tr><td><code>embed</code></td><td><code>1</code> for the compact layout. It switches on automatically inside an iframe; <code>0</code> turns it off.</td></tr>
+  </table>
+  <p style="margin-top:16px"><a href="./">← Back to the map</a></p>
+</main>
+
+<script src="js/embed.js"></script>
+</body>
+</html>
