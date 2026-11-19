@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Guelph Bike Parking Map (Beta)</title>
+  <meta name="robots" content="noindex">
+  <meta name="description" content="Map of public bicycle parking in Guelph, Ontario: rack type and number of spaces at each location.">
+  <meta name="theme-color" content="#0f766e">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://tile.openstreetmap.org https://osm-guelph.goatcounter.com; connect-src 'self' https://photon.komoot.io https://guelph.bike https://osm-guelph.goatcounter.com; font-src 'self'; worker-src 'self' blob:; frame-src 'self'; manifest-src 'self'; form-action 'self'">
+  <link rel="canonical" href="https://guelph.bike/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="preload" href="vendor/maplibre-gl/maplibre-gl.js" as="script" fetchpriority="high">
+  <link rel="preload" href="data/bike-parking.geojson" as="fetch" crossorigin fetchpriority="low">
+  <link rel="preload" href="data/guelph-boundary.geojson" as="fetch" crossorigin fetchpriority="low">
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="vendor/leaflet.markercluster/MarkerCluster.css">
+  <link rel="stylesheet" href="vendor/maplibre-gl/maplibre-gl.css">
+  <link rel="stylesheet" href="css/map.css">
+</head>
+<body>
+  <main>
+  <div id="map" role="application" aria-label="Map of bike parking in Guelph"></div>
+  <noscript>This map needs JavaScript. The data is available as <a href="data/bike-parking.geojson">GeoJSON</a>.</noscript>
+  </main>
+  <script src="vendor/leaflet/leaflet.js"></script>
+  <script src="vendor/leaflet.markercluster/leaflet.markercluster.js"></script>
+  <script src="vendor/maplibre-gl/maplibre-gl.js"></script>
+  <script src="vendor/maplibre-gl-leaflet/leaflet-maplibre-gl.js"></script>
+  <script src="vendor/pmtiles/pmtiles.js"></script>
+  <script src="js/basemap.js"></script>
+  <script src="js/style.js"></script>
+  <script src="js/types.js"></script>
+  <script src="js/map.js"></script>
+</body>
+</html>
